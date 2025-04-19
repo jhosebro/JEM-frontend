@@ -55,8 +55,8 @@ export const EventoList = () => {
       <Grid container spacing={2}>
         {eventos.map((evento) => (
           <Grid size={{ xs: 12, md: 6 }} key={evento.id}>
-            <Card>
-              <CardContent>
+            <Card sx={{ borderRadius: 2, boxShadow: 3 }}>
+              <CardContent sx={{ padding: 2 }}>
                 <Typography variant="h6">{evento.servicio}</Typography>
                 <Typography variant="body2">
                   Fecha: {evento.fecha} | Hora: {evento.horaInicio} -{" "}

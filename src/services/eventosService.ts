@@ -5,6 +5,7 @@ export const crearEvento = async (evento: any) => {
   try {
     const docRef = await addDoc(collection(db, "eventos"), evento);
     console.log("Evento creado con ID: ", docRef.id);
+    return docRef.id;
   } catch (error) {
     console.log("Error al agregar el evento: ", error);
     throw error;

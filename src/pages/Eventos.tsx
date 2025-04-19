@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { EventoList } from "../components/EventoList";
 import { useNavigate } from "react-router-dom";
 
@@ -12,7 +12,12 @@ const Eventos = () => {
       <Typography variant="h5" gutterBottom>
         Eventos
       </Typography>
-      <Button onClick={() => handleNavigate("/eventos/crearEvento")} variant="contained" color="primary" sx={{ mt: 3 }}>
+      <Button
+        onClick={() => handleNavigate("/eventos/crearEvento")}
+        variant="contained"
+        color="primary"
+        sx={{ mt: 3 }}
+      >
         Crear Evento
       </Button>
       <EventoList />
