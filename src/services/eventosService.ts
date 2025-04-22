@@ -1,9 +1,19 @@
-import { db } from "../firebase/firebase";
+import { auth, db } from "../firebase/firebase";
 import { addDoc, collection, getDocs} from "firebase/firestore";
 
 export const crearEvento = async (evento: any) => {
+  const user = auth.currentUser;
+  if (!user) {
+    throw new Error("Usuario no autenticado");
+  }
+
+  const eventoConUID = {
+    ...evento,
+    uid: user.uid,
+    fechaCreacion: new Date(),
+  }
   try {
-    const docRef = await addDoc(collection(db, "eventos"), evento);
+    const docRef = await addDoc(collection(db, "eventos"), eventoConUID);
     console.log("Evento creado con ID: ", docRef.id);
     return docRef.id;
   } catch (error) {

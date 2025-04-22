@@ -1,6 +1,13 @@
 import { onAuthStateChanged, signOut, User } from "firebase/auth";
-import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { auth } from "../firebase/firebase";
+import { Box, CircularProgress } from "@mui/material";
 
 interface AuthContextType {
   user: User | null;
@@ -8,10 +15,13 @@ interface AuthContextType {
   logout: () => Promise<void>;
 }
 
-const AuthContext = createContext<AuthContextType>({ user: null, loading: true, logout: async () => {}});
+const AuthContext = createContext<AuthContextType>({
+  user: null,
+  loading: true,
+  logout: async () => {},
+});
 
 export const useAuth = () => useContext(AuthContext);
-
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
@@ -29,16 +39,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const logout = async () => {
     try {
       await signOut(auth);
-    } catch (error){
+    } catch (error) {
       console.error("Error al cerrar sesión", error);
     }
   };
-  
-
 
   return (
-    <AuthContext.Provider value={{user, loading, logout}}>
-        {!loading && children}
+    <AuthContext.Provider value={{ user, loading, logout }}>
+      {loading ? (
+        <Box display={"flex"} justifyContent="center" mt={5}>
+          <CircularProgress/>
+        </Box>
+      ) : (
+        children
+      )}
     </AuthContext.Provider>
   );
 };

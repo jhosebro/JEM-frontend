@@ -1,7 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { browserLocalPersistence, getAuth, setPersistence } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+import { useEffect } from "react";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -16,6 +17,10 @@ const firebaseConfig = {
   appId: "1:127559145438:web:5402fb5711b4416729af4f",
   measurementId: "G-5FPK55XDMN"
 };
+
+useEffect(() => {
+  setPersistence(auth, browserLocalPersistence);
+}, []);
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
