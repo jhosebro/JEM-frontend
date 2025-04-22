@@ -18,9 +18,9 @@ const firebaseConfig = {
   measurementId: "G-5FPK55XDMN"
 };
 
-useEffect(() => {
-  setPersistence(auth, browserLocalPersistence);
-}, []);
+const setAuthPersistence = () => {
+  return setPersistence(auth, browserLocalPersistence);
+};
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
