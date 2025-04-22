@@ -2,7 +2,6 @@
 import { initializeApp } from "firebase/app";
 import { browserLocalPersistence, getAuth, setPersistence } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-import { useEffect } from "react";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -18,9 +17,6 @@ const firebaseConfig = {
   measurementId: "G-5FPK55XDMN"
 };
 
-const setAuthPersistence = () => {
-  return setPersistence(auth, browserLocalPersistence);
-};
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);

@@ -4,7 +4,6 @@ import { auth } from "../../firebase/firebase";
 import JDL from "../../assets/IMG_7619.png";
 import {
   Alert,
-  Avatar,
   Box,
   Button,
   Grid,
