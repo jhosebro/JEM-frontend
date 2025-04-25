@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
-import { Layout } from "./components/layout/Layout";
+
 import Eventos from "./pages/Eventos";
 import Inventario from "./pages/Inventario";
 import Login from "./pages/Login";
@@ -8,6 +8,8 @@ import PrivateRoute from "./routes/PrivateRoute";
 import Perfil from "./pages/Perfil";
 import Configuracion from "./pages/Configuracion";
 import CrearEventoPage from "./pages/CrearEventoPage";
+import { EventoDetalle } from "./pages/EventoDetalle";
+import { Layout } from "./layout/Layout";
 
 const App = () => {
   return (
@@ -60,6 +62,14 @@ const App = () => {
             element={
               <PrivateRoute>
                 <CrearEventoPage />
+              </PrivateRoute>
+            }
+          ></Route>
+          <Route
+            path="/eventos/:id"
+            element={
+              <PrivateRoute>
+                <EventoDetalle />
               </PrivateRoute>
             }
           ></Route>

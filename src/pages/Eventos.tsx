@@ -8,18 +8,22 @@ const Eventos = () => {
     navigate(path);
   };
   return (
-    <Box sx={{ maxWidth: 800, mx: "auto", mt: 4 }}>
-      <Typography variant="h5" gutterBottom>
-        Eventos
-      </Typography>
+    <Box sx={{maxWidth: 1200, mx: "auto", mt: 4 }}>
+      <Box display={"flex"} justifyContent="center">
+        <Typography variant="h2">
+          Eventos
+        </Typography>
+      </Box>
+      <Box display={"flex"} justifyContent="end">
       <Button
         onClick={() => handleNavigate("/eventos/crearEvento")}
-        variant="contained"
+        variant="contained"   
         color="primary"
         sx={{ mt: 3 }}
       >
         Crear Evento
       </Button>
+      </Box>
       <EventoList />
     </Box>
   );

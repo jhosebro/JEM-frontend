@@ -23,10 +23,12 @@ import { DarkMode, LightMode, Menu as MenuIcon } from "@mui/icons-material";
 import LogoutIcon from "@mui/icons-material/Logout";
 import SettingsIcon from "@mui/icons-material/Settings";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
-import { useAuth } from "../../contexts/AuthContext";
+
 import { useNavigate } from "react-router-dom";
-import JDL from "../../assets/IMG_7619.png";
-import { useThemeMode } from "../../contexts/ThemeContext";
+import JDL from "../assets/IMG_7619.png"
+import { useAuth } from "../contexts/AuthContext";
+import { useThemeMode } from "../contexts/ThemeContext";
+
 
 interface LayoutProps {
   children: React.ReactNode;

@@ -1,7 +1,6 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
-import { auth } from "../../firebase/firebase";
-import JDL from "../../assets/IMG_7619.png";
+import JDL from "../assets/IMG_7619.png";
 import {
   Alert,
   Box,
@@ -16,6 +15,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { auth } from "../firebase/firebase";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
