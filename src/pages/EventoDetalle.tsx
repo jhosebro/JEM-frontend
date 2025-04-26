@@ -15,6 +15,9 @@ import {
   Typography,
 } from "@mui/material";
 import { ArrowBack, Cancel, Delete, Edit, Save } from "@mui/icons-material";
+import MapaSelector from "../components/MapaSelector";
+import { Mapa } from "../components/Mapa";
+
 
 interface Evento {
   id: string;
@@ -26,6 +29,8 @@ interface Evento {
   clienteNombre: string;
   clienteTelefono: string;
   clienteEmail: string;
+  latitud?: number;
+  longitud?: number;
 }
 
 export const EventoDetalle = () => {
@@ -43,20 +48,54 @@ export const EventoDetalle = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const navigate = useNavigate();
 
+  //* Funcion que valida que la informacion ingresada para el formulario sea correcta
   const validarFormulario = () => {
     const nuevosErrores: Record<string, string> = {};
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const telefonoRegex = /^[0-9]{7,}$/;
+
     if (!form?.servicio) nuevosErrores.servicio = "El servicio es requerido.";
     if (!form?.fecha) nuevosErrores.fecha = "La fecha es requerida.";
     if (!form?.horaInicio)
       nuevosErrores.horaInicio = "La hora de inicio es requerida.";
-    if (!form?.horaFin) nuevosErrores.horaFin = "La hora de fin es requerida.";
+    //* Validar que la hora de inicio sea menor a la hora de fin
+    if (!form?.horaFin) {
+      nuevosErrores.horaFin = "La hora de fin es requerida.";
+    } else if (form?.horaInicio && form?.horaFin) {
+      const horaInicio = new Date(`${form.fecha}T${form.horaInicio}`);
+      let horaFin = new Date(`${form.fecha}T${form.horaFin}`);
+      if (horaFin <= horaInicio) {
+        horaFin.setDate(horaFin.getDate() + 1);
+      }
+      if (horaFin <= horaInicio) {
+        nuevosErrores.horaFin = "La hora de fin debe ser mayor a la de inicio.";
+      }
+    }
     if (!form?.ciudad) nuevosErrores.ciudad = "La ciudad es requerida.";
     if (!form?.clienteNombre)
       nuevosErrores.clienteNombre = "El nombre del cliente es requerido.";
-    if (!form?.clienteTelefono)
+    if (!form?.clienteTelefono) {
       nuevosErrores.clienteTelefono = "El teléfono del cliente es requerido.";
-    if (!form?.clienteEmail)
+    } else if (!telefonoRegex.test(form.clienteTelefono)) {
+      nuevosErrores.clienteTelefono =
+        "El teléfono del cliente debe tener al menos 7 dígitos.";
+    }
+    if (!form?.clienteEmail) {
       nuevosErrores.clienteEmail = "El email del cliente es requerido.";
+    } else if (!emailRegex.test(form.clienteEmail)) {
+      nuevosErrores.clienteEmail = "El email del cliente es inválido.";
+    }
+
+    //* Validar que la fecha no sea pasada
+    if (form?.fecha) {
+      const hoy = new Date();
+      hoy.setHours(0, 0, 0, 0);
+      const fechaEvento = new Date(form.fecha);
+      if (fechaEvento < hoy) {
+        nuevosErrores.fecha = "La fecha del evento no puede ser pasada.";
+      }
+    }
 
     setErrors(nuevosErrores);
     return Object.keys(nuevosErrores).length === 0;
@@ -228,6 +267,39 @@ export const EventoDetalle = () => {
                   </Grid>
                 ))}
               </Grid>
+              <Typography variant="body1" sx={{ mt: 2 }}>
+                Ubicacion del evento
+              </Typography>
+              <Box mt={1}>
+                <MapaSelector
+                  ubicacionInicial={{
+                    lat: form?.latitud || 3.6927785,
+                    lng: form?.longitud || -76.3149873,
+                  }}
+                  onUbicacionSeleccionada={(lat, lng) =>
+                    setForm((prev) => ({
+                      ...prev!,
+                      latitud: lat,
+                      longitud: lng,
+                    }))
+                  }
+                />
+              </Box>
+              {(() => {
+                const horaInicio = new Date(
+                  `${evento.fecha}T${evento.horaInicio}`
+                );
+                let horaFin = new Date(`${evento.fecha}T${evento.horaFin}`);
+                if (horaFin <= horaInicio) {
+                  horaFin.setDate(horaFin.getDate() + 1);
+                  return (
+                    <Typography variant="body1">
+                      * Este evento se extiende hasta el dia siguiente:{" "}
+                      {horaFin.toLocaleDateString()}
+                    </Typography>
+                  );
+                }
+              })()}
               <Box display={"flex"} justifyContent="end" gap={2}>
                 <Button
                   startIcon={<Save />}
@@ -260,6 +332,21 @@ export const EventoDetalle = () => {
               <Typography variant="body1">
                 <strong>Hora:</strong> {evento.horaInicio} - {evento.horaFin}
               </Typography>
+              {(() => {
+                const horaInicio = new Date(
+                  `${evento.fecha}T${evento.horaInicio}`
+                );
+                let horaFin = new Date(`${evento.fecha}T${evento.horaFin}`);
+                if (horaFin <= horaInicio) {
+                  horaFin.setDate(horaFin.getDate() + 1);
+                  return (
+                    <Typography variant="body1">
+                      * Este evento se extiende hasta el dia siguiente:{" "}
+                      {horaFin.toLocaleDateString()}
+                    </Typography>
+                  );
+                }
+              })()}
               <Typography variant="body1">
                 <strong>Ciudad:</strong> {evento.ciudad}
               </Typography>
@@ -272,6 +359,18 @@ export const EventoDetalle = () => {
               <Typography variant="body1">
                 <strong>Email:</strong> {evento.clienteEmail}
               </Typography>
+              <Box mt={4}>
+                <Typography variant="h6" gutterBottom>
+                  Ubicacion en el mapa
+                </Typography>
+                {evento.latitud && evento.longitud ? (
+                  <Mapa latitud={evento.latitud} longitud={evento.longitud} />
+                ) : (
+                  <Typography variant="body1">
+                    No hay coordenadas disponible para este evento
+                  </Typography>
+                )}
+              </Box>
             </>
           )}
         </CardContent>

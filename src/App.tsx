@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
-
+import "leaflet/dist/leaflet.css";
 import Eventos from "./pages/Eventos";
 import Inventario from "./pages/Inventario";
 import Login from "./pages/Login";
