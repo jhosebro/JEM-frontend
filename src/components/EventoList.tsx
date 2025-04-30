@@ -14,7 +14,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { RemoveRedEye } from "@mui/icons-material";
 
-interface Evento {
+export interface Evento {
   id: string;
   fecha: string;
   ciudad: string;

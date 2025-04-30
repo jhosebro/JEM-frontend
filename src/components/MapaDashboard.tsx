@@ -12,7 +12,9 @@ import greenMarker from "../assets/marker-icon-green.png";
 import { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase/firebase";
-import { Card, CardContent, Typography } from "@mui/material";
+import { Button, Card, CardContent, Typography } from "@mui/material";
+import { Event, Lightbulb, LocationOn, RemoveRedEye } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 delete (L.Icon.Default.prototype as any)._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -36,6 +38,7 @@ interface Evento {
 }
 
 export const MapaDashboard = () => {
+  const navigate = useNavigate();
   const [eventos, setEventos] = useState<Evento[]>([]);
 
   useEffect(() => {
@@ -105,14 +108,47 @@ export const MapaDashboard = () => {
                 icon={getMarkerIcon(evento.servicio)}
               >
                 <Popup>
-                  <strong>{evento.clienteNombre}</strong>
-                  <br />
-                  {evento.ciudad} - {evento.servicio}
-                  <br />
-                  Fecha: {evento.fecha}
-                  <br />
-                  Hora: {evento.horaInicio} - {evento.horaFin}
-                  <br />
+                  <div style={{ textAlign: "center", minWidth: "150px" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        marginBottom: "8px",
+                      }}
+                    >
+                      {evento.servicio
+                        .toLocaleLowerCase()
+                        .includes("iluminación") ? (
+                        <Lightbulb
+                          style={{ color: "#fdd835", marginRight: "8px" }}
+                        ></Lightbulb>
+                      ) : evento.servicio
+                          .toLocaleLowerCase()
+                          .includes("evento") ? (
+                        <Event
+                          style={{ color: "#1976d2", marginRight: "8px" }}
+                        ></Event>
+                      ) : (
+                        <LocationOn
+                          style={{ color: "#d32f2f", marginRight: "8px" }}
+                        ></LocationOn>
+                      )}
+                      <strong>{evento.clienteNombre}</strong>
+                    </div>
+                    <Typography variant="body2" color="text.secondary">
+                      {evento.ciudad} - {evento.servicio}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Fecha: {evento.fecha}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Hora: {evento.horaInicio} - {evento.horaFin}
+                    </Typography>
+                    <Button startIcon={<RemoveRedEye></RemoveRedEye>} variant="contained" color="primary" onClick={() => navigate(`/eventos/${evento.id}`)}>
+                      Ver más
+                    </Button>
+                  </div>
                 </Popup>
               </Marker>
             );

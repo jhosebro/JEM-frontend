@@ -17,6 +17,7 @@ import {
 import { ArrowBack, Cancel, Delete, Edit, Save } from "@mui/icons-material";
 import MapaSelector from "../components/MapaSelector";
 import { Mapa } from "../components/Mapa";
+import AsignarInventario from "../components/AsignarInventario";
 
 
 interface Evento {
@@ -31,6 +32,7 @@ interface Evento {
   clienteEmail: string;
   latitud?: number;
   longitud?: number;
+  inventarioAsignado?: {id: string; cantidad: number}[];
 }
 
 export const EventoDetalle = () => {
@@ -375,6 +377,7 @@ export const EventoDetalle = () => {
           )}
         </CardContent>
       </Card>
+      <AsignarInventario eventoId={evento.id}/>
       <Snackbar
         open={snackbar.open}
         autoHideDuration={4000}
