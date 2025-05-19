@@ -20,7 +20,7 @@ import { Mapa } from "../components/Mapa";
 import AsignarInventario from "../components/AsignarInventario";
 
 
-interface Evento {
+export interface Evento {
   id: string;
   fecha: string;
   ciudad: string;

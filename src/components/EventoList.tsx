@@ -24,6 +24,9 @@ export interface Evento {
   clienteNombre: string;
   clienteTelefono: string;
   clienteEmail: string;
+  latitud?: number;
+  longitud?: number;
+  inventarioAsignado?: {id: string; cantidad: number}[];
 }
 
 export const EventoList = () => {
