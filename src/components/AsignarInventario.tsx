@@ -9,7 +9,6 @@ import {
   getDocs,
   increment,
   runTransaction,
-  Transaction,
   updateDoc,
 } from "firebase/firestore";
 import {
@@ -114,7 +113,6 @@ const AsignarInventario = ({ eventoId }: AsignarInventarioProps) => {
             throw new Error(`Producto ${id} no existe`);
 
           const productoData = productoSnap.data() as Inventario;
-          const cantidadAsignadaAnterior = inventarioMap.get(id) || 0;
 
           if (cantidadNueva <= 0) {
             throw new Error(`Cantidad inválida para ${productoData.nombre}`);
