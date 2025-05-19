@@ -113,7 +113,7 @@ const AsignarInventario = ({ eventoId }: AsignarInventarioProps) => {
             throw new Error(`Producto ${id} no existe`);
 
           const productoData = productoSnap.data() as Inventario;
-
+          
           if (cantidadNueva <= 0) {
             throw new Error(`Cantidad inválida para ${productoData.nombre}`);
           }
